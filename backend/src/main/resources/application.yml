@@ -1,0 +1,43 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: branch-queue
+  datasource:
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://db:5432/branch_queue}
+    username: ${SPRING_DATASOURCE_USERNAME:ccb}
+    password: ${SPRING_DATASOURCE_PASSWORD:ccb_pass}
+    hikari:
+      maximum-pool-size: 10
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        format_sql: false
+  jackson:
+    time-zone: Asia/Shanghai
+    date-format: yyyy-MM-dd HH:mm:ss
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+jwt:
+  secret: ${JWT_SECRET:ccb-branch-queue-demo-secret-key-please-change-in-prod-0123456789}
+  expiration-ms: 43200000
+
+app:
+  queue:
+    # 超过该等待秒数自动触发“长时间等待”事件（演示环境 10 分钟）
+    long-wait-seconds: 600
+    # 大额现金/转账阈值（元），触发反诈核验与现金库存校验
+    large-amount-threshold: 50000

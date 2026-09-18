@@ -1,0 +1,48 @@
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: ${COMPOSE_PROJECT_NAME}-db
+    environment:
+      POSTGRES_DB: branch_queue
+      POSTGRES_USER: ccb
+      POSTGRES_PASSWORD: ccb_pass
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ccb -d branch_queue"]
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  app:
+    build: ./backend
+    container_name: ${COMPOSE_PROJECT_NAME}-app
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/branch_queue
+      SPRING_DATASOURCE_USERNAME: ccb
+      SPRING_DATASOURCE_PASSWORD: ccb_pass
+      JWT_SECRET: ${JWT_SECRET:-ccb-branch-queue-demo-secret-key-please-change-in-prod-0123456789}
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 45s
+    restart: unless-stopped
+
+  web:
+    build: ./frontend
+    container_name: ${COMPOSE_PROJECT_NAME}-web
+    ports:
+      - "${CC_PUBLISH_PORT}:8080"
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  pgdata:
