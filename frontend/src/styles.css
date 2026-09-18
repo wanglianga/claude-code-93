@@ -1,0 +1,58 @@
+html, body, #app {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  font-family: "PingFang SC", "Microsoft YaHei", "Helvetica Neue", Arial, sans-serif;
+  background: #f2f4f8;
+}
+
+.page-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #1f2d3d;
+  margin: 0 0 14px;
+}
+
+.section-card {
+  margin-bottom: 16px;
+}
+
+.mono-no {
+  font-family: "DIN Alternate", "Consolas", monospace;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.el-card {
+  border-radius: 10px;
+}
+
+.stat-card {
+  border-radius: 10px;
+  color: #fff;
+  padding: 16px 18px;
+  position: relative;
+  overflow: hidden;
+}
+.stat-card .stat-num {
+  font-size: 30px;
+  font-weight: 800;
+  line-height: 1.2;
+}
+.stat-card .stat-label {
+  font-size: 13px;
+  opacity: .92;
+}
+.stat-card .stat-icon {
+  position: absolute;
+  right: 14px;
+  top: 14px;
+  font-size: 34px;
+  opacity: .35;
+}
+.bg-blue   { background: linear-gradient(135deg, #2f6bff, #4a90ff); }
+.bg-green  { background: linear-gradient(135deg, #16a05f, #36c98a); }
+.bg-orange { background: linear-gradient(135deg, #e6832a, #ffac5c); }
+.bg-red    { background: linear-gradient(135deg, #d84a4a, #ff7b7b); }
+.bg-purple { background: linear-gradient(135deg, #7a5af8, #a48bff); }
+.bg-teal   { background: linear-gradient(135deg, #0e8a8a, #2bb8b8); }
